@@ -3,6 +3,7 @@ package com.project.taskwebapp.taskapp.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,12 +23,12 @@ public class User {
             mappedBy = "user"
     )
     @JsonManagedReference("user-projects")
-    private List<Project> projects;
+    private final List<Project> projects = new ArrayList<>();
 
     public User() {
     }
 
-    public User(Integer id, String username, String email, String password) {
+    public User(Integer id, String username, String email, String password, List<Project> projects) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -64,5 +65,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
     }
 }
