@@ -2,6 +2,8 @@ package com.project.taskwebapp.taskapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +15,10 @@ public class User {
     @GeneratedValue
     private Integer id;
 
+    @NotNull(message = "username must not be null")
     private String username;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
