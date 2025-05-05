@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "../components/TextField";
 import { Link } from "react-router-dom";
 import CustomButton from "../components/CustomButton";
 import api from "../api/api";
 
-export const emailRegex = RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+export const emailRegex = RegExp(
+	"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+);
 const SignUp = () => {
 	const [disabled, setDisabled] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const [userDetails, setUserDetails] = useState({
 		username: "",
-        email:"",
+		email: "",
 		password: "",
 	});
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,20 +30,24 @@ const SignUp = () => {
 	}, [userDetails, confirmPassword]);
 
 	const handleSignUp = async () => {
+		setLoading(true);
 		if (userDetails.password !== confirmPassword) {
 			alert("Passwords do not match");
 			return;
 		}
-        if(!emailRegex.test(userDetails.email)){
-            alert("Invalid email address");
-            return;
-        }
+		if (!emailRegex.test(userDetails.email)) {
+			alert("Invalid email address");
+			return;
+		}
 		try {
-			const res = await api.post("/auth/aignup", userDetails);
+			const res = await api.post("/auth/signup", userDetails);
 			console.log(res.data);
 		} catch (e) {
 			alert(e);
+		} finally {
+			setLoading(false);
 		}
+		setLoading(false);
 	};
 	return (
 		<div className="w-full h-screen flex justify-center pt-52">
@@ -66,6 +72,7 @@ const SignUp = () => {
 					value={userDetails.email}
 				/>
 				<TextField
+					type="password"
 					label="Password"
 					placeholder="Enter your password"
 					onChange={(e) =>
@@ -74,6 +81,7 @@ const SignUp = () => {
 					value={userDetails.password}
 				/>
 				<TextField
+					type="password"
 					label="Confirm Password"
 					placeholder="Confirm your password"
 					onChange={(e) => setConfirmPassword(e.target.value)}

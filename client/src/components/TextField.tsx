@@ -25,6 +25,7 @@ const TextField = ({
 				{label}
 			</label>
 			<input
+				type={type}
 				required={required}
 				value={value}
 				onChange={onChange}

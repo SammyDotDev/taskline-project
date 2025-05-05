@@ -13,9 +13,10 @@ const CustomButton = ({
 		<button
 			className={`rounded-xl px-4 py-3 bg-[#2d4acd] text-white ${
 				wFit ? "w-fit" : ""
-			} cursor-pointer hover:bg-[#2d4acd]/80 transition-colors duration-200 ease-in-out shadow-2xs`}
+			} cursor-pointer hover:bg-[#2d4acd]/80 transition-colors duration-200 ease-in-out shadow-2xs disabled:opacity-50 disabled:cursor-not-allowed`}
 			onClick={onClick}
             disabled={disabled}
+
 		>
 			{title}
 		</button>
