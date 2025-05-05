@@ -1,11 +1,13 @@
 package com.project.taskwebapp.taskapp.services;
 
 import com.project.taskwebapp.taskapp.entity.User;
+import com.project.taskwebapp.taskapp.exceptions.EmailNotFoundException;
 import com.project.taskwebapp.taskapp.repository.UserRepository;
 import com.project.taskwebapp.taskapp.utils.interfaces.AuthServiceInterface;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthService implements AuthServiceInterface {
@@ -22,11 +24,15 @@ public class AuthService implements AuthServiceInterface {
 
     @Override
     public List<User> getAllUsers() {
-        return List.of();
+        return userRepository.findAll();
     }
 
     @Override
     public User getUserById(Integer id) {
         return null;
+    }
+
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(()->new EmailNotFoundException("Email not found"));
     }
 }
