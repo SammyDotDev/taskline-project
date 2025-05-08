@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class AuthService implements AuthServiceInterface {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -33,6 +33,6 @@ public class AuthService implements AuthServiceInterface {
     }
 
     public User findByEmail(String email){
-        return userRepository.findByEmail(email).orElseThrow(()->new EmailNotFoundException("Email not found"));
+        return userRepository.findByEmail(email).orElseThrow(()->new EmailNotFoundException("Email does not exist"));
     }
 }
