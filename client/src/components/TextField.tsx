@@ -21,7 +21,7 @@ const TextField = ({
 }: TextFieldProps) => {
 	return (
 		<div className="flex flex-col gap-2 mb-1 py-2">
-			<label htmlFor="text-field" className="text-md text-gray-700">
+			<label htmlFor="text-field" className="text-md text-gray-500">
 				{label}
 			</label>
 			<input
@@ -29,7 +29,8 @@ const TextField = ({
 				required={required}
 				value={value}
 				onChange={onChange}
-				className="p-2.5 rounded-xl bg-[#f3f5f7] border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+				className="p-2.5 rounded-xl bg-gray-700 border
+                text-white border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
 				placeholder={placeholder}
 			/>
 		</div>

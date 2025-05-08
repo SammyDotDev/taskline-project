@@ -1,4 +1,3 @@
-import "./App.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import MainApp from "./main/MainApp";
 import CreateProject from "./main/CreateProject";
