@@ -1,6 +1,6 @@
 package com.project.taskwebapp.taskapp.exceptionhandlers;
 
-import com.project.taskwebapp.taskapp.exceptions.EmailNotFoundException;
+import com.project.taskwebapp.taskapp.exceptions.EmailException;
 import com.project.taskwebapp.taskapp.exceptions.InvalidPasswordException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> body = Map.of(
                 "timestamp",LocalDateTime.now(),
                 "status",HttpStatus.BAD_REQUEST.value(),
-                "error",HttpStatus.BAD_REQUEST.toString(),
+                "error",HttpStatus.BAD_REQUEST.name(),
                 "message",message
         );
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
@@ -50,17 +50,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<?>handleEmailEmpty(InvalidPasswordException exp){
-        var errors = new HashMap<String, String>();
-        errors.put("error", exp.getMessage());
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(EmailNotFoundException.class)
-    public ResponseEntity<?> handleEmailNotFoundException(EmailNotFoundException exp){
-        var error = new HashMap<String, String>();
-        error.put("error",exp.getMessage());
+        var error = new HashMap<String, Object>();
+        error.put("timestamp", LocalDateTime.now());
+        error.put("error", HttpStatus.BAD_REQUEST.name());
+        error.put("message", exp.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<?> handleEmailNotFoundException(EmailException exp){
+        var error = new HashMap<String, Object>();
+        error.put("timestamp", LocalDateTime.now());
+        error.put("error", HttpStatus.BAD_REQUEST.name());
+        error.put("message",exp.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 }

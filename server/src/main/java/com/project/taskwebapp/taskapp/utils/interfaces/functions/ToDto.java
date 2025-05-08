@@ -1,7 +1,9 @@
 package com.project.taskwebapp.taskapp.utils.interfaces.functions;
 
+import com.project.taskwebapp.taskapp.dto.projects.ProjectDto;
 import com.project.taskwebapp.taskapp.dto.users.AuthDto;
 import com.project.taskwebapp.taskapp.dto.users.UserDto;
+import com.project.taskwebapp.taskapp.entity.Project;
 import com.project.taskwebapp.taskapp.entity.User;
 
 public class ToDto {
@@ -11,6 +13,10 @@ public class ToDto {
 
     public AuthDto toAuthDto(User user){
         return new AuthDto(user.getEmail(), user.getUsername());
+    }
+
+    public ProjectDto toProjectDto(Project project, User user){
+        return new ProjectDto(project.getId(), project.getName(), project.getDescription(), user.getId());
     }
 
 }

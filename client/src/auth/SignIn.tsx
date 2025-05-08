@@ -40,9 +40,8 @@ const SignIn = () => {
                 navigate("/");
 			}
 		} catch (e) {
-			alert(e.response.data.error);
 			// console.log(e.response.data.error)
-			setError(e.response.data.error);
+			setError(e.response.data.message);
 			setSuccess("");
 		} finally {
 			setLoading(false);

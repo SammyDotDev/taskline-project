@@ -50,8 +50,7 @@ const SignUp = () => {
 				setError("");
 			}
 		} catch (e) {
-			alert(e);
-			setError(e.response.data.error);
+			setError(e.response.data.message);
 			setSuccess("");
 		} finally {
 			setLoading(false);
