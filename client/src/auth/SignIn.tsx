@@ -5,6 +5,7 @@ import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { emailRegex } from "./SignUp";
 import api from "../api/api";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
 
 const SignIn = () => {
 	const [disabled, setDisabled] = useState(true);
@@ -15,7 +16,7 @@ const SignIn = () => {
 		email: "",
 		password: "",
 	});
-
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -35,9 +36,11 @@ const SignIn = () => {
 			const res = await api.post("/auth/signin", userDetails);
 			console.log(res.data.message);
 			if (res.status === 200 && res.data.success) {
+				localStorage.setItem("user", JSON.stringify(res.data.user));
+
 				setSuccess(res.data.message);
 				setError("");
-                navigate("/");
+				navigate("/");
 			}
 		} catch (e) {
 			// console.log(e.response.data.error)

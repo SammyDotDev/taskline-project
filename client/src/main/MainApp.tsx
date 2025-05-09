@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SideBar from "../sidebar/SideBar";
+import api, { API_URL } from "../api/api";
 
 const MainApp = () => {
+	const getUserProjects = async () => {
+		const userId = localStorage.getItem("user");
+		const currentUserId = userId !== null && JSON.parse(userId).id;
+		try {
+			const res = await api.get(
+				`${API_URL}/project/get-projects/${currentUserId}`
+			);
+			console.log(res.data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		getUserProjects();
+	}, []);
 	return (
 		<div className="w-full flex h-screen">
 			<SideBar />
