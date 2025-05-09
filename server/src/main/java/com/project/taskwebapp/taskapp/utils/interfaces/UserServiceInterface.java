@@ -1,6 +1,6 @@
 package com.project.taskwebapp.taskapp.utils.interfaces;
 
-import com.project.taskwebapp.taskapp.entity.User;
+import com.project.taskwebapp.taskapp.models.User;
 
 import java.util.List;
 

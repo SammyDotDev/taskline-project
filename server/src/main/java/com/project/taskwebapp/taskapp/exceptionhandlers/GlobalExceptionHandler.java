@@ -2,6 +2,7 @@ package com.project.taskwebapp.taskapp.exceptionhandlers;
 
 import com.project.taskwebapp.taskapp.exceptions.EmailException;
 import com.project.taskwebapp.taskapp.exceptions.InvalidPasswordException;
+import com.project.taskwebapp.taskapp.exceptions.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,6 +64,14 @@ public class GlobalExceptionHandler {
         var error = new HashMap<String, Object>();
         error.put("timestamp", LocalDateTime.now());
         error.put("error", HttpStatus.BAD_REQUEST.name());
+        error.put("message",exp.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> handleNotFoundException(NotFoundException exp){
+        var error = new HashMap<String, String>();
         error.put("message",exp.getMessage());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);

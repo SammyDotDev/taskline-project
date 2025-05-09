@@ -1,4 +1,4 @@
-package com.project.taskwebapp.taskapp.entity;
+package com.project.taskwebapp.taskapp.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -33,11 +33,12 @@ public class Task {
     public Task() {
     }
 
-    public Task(Integer id, String title, String dueDate, String status) {
+    public Task(Integer id, String title, String dueDate, String status, Project project) {
         this.id = id;
         this.title = title;
         this.dueDate = dueDate;
         this.status = status;
+        this.project = project;
     }
 
     public Integer getId() {
@@ -70,5 +71,13 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

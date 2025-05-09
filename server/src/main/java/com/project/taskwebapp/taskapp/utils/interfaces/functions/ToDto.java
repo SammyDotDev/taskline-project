@@ -1,14 +1,16 @@
 package com.project.taskwebapp.taskapp.utils.interfaces.functions;
 
 import com.project.taskwebapp.taskapp.dto.projects.ProjectDto;
+import com.project.taskwebapp.taskapp.dto.tasks.TaskDto;
 import com.project.taskwebapp.taskapp.dto.users.AuthDto;
 import com.project.taskwebapp.taskapp.dto.users.UserDto;
-import com.project.taskwebapp.taskapp.entity.Project;
-import com.project.taskwebapp.taskapp.entity.User;
+import com.project.taskwebapp.taskapp.models.Project;
+import com.project.taskwebapp.taskapp.models.Task;
+import com.project.taskwebapp.taskapp.models.User;
 
 public class ToDto {
     public UserDto toUserDto(User user){
-        return new UserDto(user.getUsername(), user.getEmail(), user.getProjects());
+        return new UserDto(user.getId(), user.getUsername(), user.getEmail(), user.getProjects());
     }
 
     public AuthDto toAuthDto(User user){
@@ -17,6 +19,10 @@ public class ToDto {
 
     public ProjectDto toProjectDto(Project project, User user){
         return new ProjectDto(project.getId(), project.getName(), project.getDescription(), user.getId());
+    }
+
+    public TaskDto toTaskDto(Task task, Project project){
+        return new TaskDto(task.getId(), task.getTitle(), task.getDueDate(), task.getStatus(), project.getId());
     }
 
 }

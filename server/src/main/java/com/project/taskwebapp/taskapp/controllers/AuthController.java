@@ -1,10 +1,9 @@
 package com.project.taskwebapp.taskapp.controllers;
 
 import com.project.taskwebapp.taskapp.dto.apiResponse.ApiResponseDto;
-import com.project.taskwebapp.taskapp.dto.users.AuthDto;
 import com.project.taskwebapp.taskapp.dto.users.AuthSigninDto;
 import com.project.taskwebapp.taskapp.dto.users.UserDto;
-import com.project.taskwebapp.taskapp.entity.User;
+import com.project.taskwebapp.taskapp.models.User;
 import com.project.taskwebapp.taskapp.exceptions.EmailException;
 import com.project.taskwebapp.taskapp.exceptions.InvalidPasswordException;
 import com.project.taskwebapp.taskapp.services.AuthService;

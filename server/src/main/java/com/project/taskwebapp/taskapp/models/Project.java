@@ -1,4 +1,4 @@
-package com.project.taskwebapp.taskapp.entity;
+package com.project.taskwebapp.taskapp.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

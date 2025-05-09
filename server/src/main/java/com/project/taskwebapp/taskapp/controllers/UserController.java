@@ -1,7 +1,7 @@
 package com.project.taskwebapp.taskapp.controllers;
 
 import com.project.taskwebapp.taskapp.dto.users.UserDto;
-import com.project.taskwebapp.taskapp.entity.User;
+import com.project.taskwebapp.taskapp.models.User;
 import com.project.taskwebapp.taskapp.services.AuthService;
 import com.project.taskwebapp.taskapp.services.UserService;
 import com.project.taskwebapp.taskapp.utils.interfaces.functions.ToDto;

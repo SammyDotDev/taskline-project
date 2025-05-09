@@ -1,6 +1,6 @@
 package com.project.taskwebapp.taskapp.dto.users;
 
-import com.project.taskwebapp.taskapp.entity.Project;
+import com.project.taskwebapp.taskapp.models.Project;
 
 import java.util.List;
 

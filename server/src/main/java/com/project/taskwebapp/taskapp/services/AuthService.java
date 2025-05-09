@@ -1,7 +1,8 @@
 package com.project.taskwebapp.taskapp.services;
 
-import com.project.taskwebapp.taskapp.entity.User;
+import com.project.taskwebapp.taskapp.models.User;
 import com.project.taskwebapp.taskapp.exceptions.EmailException;
+import com.project.taskwebapp.taskapp.exceptions.NotFoundException;
 import com.project.taskwebapp.taskapp.repository.UserRepository;
 import com.project.taskwebapp.taskapp.utils.interfaces.AuthServiceInterface;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class AuthService implements AuthServiceInterface {
 
     @Override
     public User getUserById(Integer id) {
-        return null;
+        return userRepository.findById(id).orElseThrow(()-> new NotFoundException("User with id: " + id + " not found"));
     }
 
     public User findByEmail(String email){

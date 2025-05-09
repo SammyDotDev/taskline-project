@@ -1,9 +1,8 @@
 package com.project.taskwebapp.taskapp.services;
 
-import com.project.taskwebapp.taskapp.entity.User;
+import com.project.taskwebapp.taskapp.models.User;
 import com.project.taskwebapp.taskapp.repository.UserRepository;
 import com.project.taskwebapp.taskapp.utils.interfaces.UserServiceInterface;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
