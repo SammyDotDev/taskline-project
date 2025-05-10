@@ -58,7 +58,7 @@ const SignIn = () => {
 		<div className="w-full h-screen justify-center flex flex-col pt-52 bg-gray-950">
 			{error.length !== 0 && (
 				<motion.div
-					className="p-2.5 rounded-xl flex justify-center items-center bg-red-500 mx-auto"
+					className="p-2.5 rounded-xl flex justify-center items-center bg-red-500 mx-auto  absolute left-1/2"
 					initial={{ opacity: 0, scale: 0 }}
 					animate={{ opacity: 1, scale: 1 }}
 					exit={{ opacity: 0, scale: 0 }}
@@ -68,7 +68,7 @@ const SignIn = () => {
 			)}
 			{success.length !== 0 && (
 				<motion.div
-					className="p-2.5 rounded-xl flex justify-center items-center bg-green-500 mx-auto"
+					className="p-2.5 rounded-xl flex justify-center items-center bg-green-500 mx-auto absolute left-1/2"
 					initial={{ opacity: 0, scale: 0 }}
 					animate={{ opacity: 1, scale: 1 }}
 					exit={{ opacity: 0, scale: 0 }}

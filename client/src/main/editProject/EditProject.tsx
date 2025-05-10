@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import CustomButton from "../../components/CustomButton";
 import TextField from "../../components/TextField";
 import SideBar from "../../sidebar/SideBar";
-import CustomButton from "../../components/CustomButton";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import api, { API_URL } from "../../api/api";
 import { useNavigate } from "react-router-dom";
+import api, { API_URL } from "../../api/api";
 
-const CreateProject = () => {
+const EditProject = () => {
 	const navigate = useNavigate();
 	const [projectData, setProjectData] = useState<{
 		name: string;
@@ -18,55 +16,26 @@ const CreateProject = () => {
 	});
 	const [disabled, setDisabled] = useState(true);
 
-	useEffect(() => {
-		const nameIsEmpty = projectData.name.length === 0;
-		const descriptionIsEmpty = projectData.description.length === 0;
-
-		if (nameIsEmpty && descriptionIsEmpty) {
-			setDisabled(true);
-		} else {
-			setDisabled(false);
-		}
-	}, [projectData]);
-
-	const handleCreateProject = async () => {
+	const getProjects = async () => {
 		const userId = localStorage.getItem("user");
 		const currentUserId = userId !== null && JSON.parse(userId).id;
 		try {
-			const res = await api.post(
-				`${API_URL}/project/add-project`,
-				{
-					name: projectData.name,
-					description: projectData.description,
-					userId: currentUserId,
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
-			console.log(res.data, res.status);
-			if (res.status === 201) {
-                localStorage.setItem("projectId", res.data.id)
-                navigate("/create-project/add-task")
-			}
+			const res = await api.get(`${API_URL}/get-projects/${currentUserId}`);
+			setProjectData(res.data);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
+	useEffect(() => {}, []);
+
+	const handleEditProject = async () => {};
 	return (
 		<div className="w-full flex bg-gray-950">
 			<SideBar />
 			<div className="w-10/12 h-screen -10/12 p-3.5 ml-auto">
 				<div className="flex flex-col w-full gap-4">
-					<h1 className="text-2xl font-bold text-gray-500">
-						Create New Project
-					</h1>
-					<p className="text-base font-light text-gray-700">
-						Create new project to store tasks
-					</p>
+					<h1 className="text-2xl font-bold text-gray-500">Edit Project</h1>
 				</div>
 				<div className="w-full h-0.5 bg-gray-700 my-3.5" />
 				<div className="flex flex-col gap-4 w-2/4 mx-auto">
@@ -91,7 +60,7 @@ const CreateProject = () => {
 					/>
 					<CustomButton
 						title="Add Project"
-						onClick={handleCreateProject}
+						onClick={handleEditProject}
 						disabled={disabled}
 					/>
 				</div>
@@ -100,4 +69,4 @@ const CreateProject = () => {
 	);
 };
 
-export default CreateProject;
+export default EditProject;

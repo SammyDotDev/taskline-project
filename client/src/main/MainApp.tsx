@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../sidebar/SideBar";
 import api, { API_URL } from "../api/api";
+import { FaEllipsis } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 const MainApp = () => {
+	const [projects, setProjects] = useState([]);
+	const [selectedTaskEllipse, setSelectedTaskEllipse] = useState(null);
 	const getUserProjects = async () => {
 		const userId = localStorage.getItem("user");
 		const currentUserId = userId !== null && JSON.parse(userId).id;
@@ -11,6 +15,19 @@ const MainApp = () => {
 				`${API_URL}/project/get-projects/${currentUserId}`
 			);
 			console.log(res.data);
+			setProjects(res.data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const handleDeleteProject = async (projectId: number) => {
+		try {
+			const res = await api.delete(`${API_URL}/project/delete-project/${projectId}`);
+			if (res.status === 200) {
+				getUserProjects();
+				console.log("Project deleted successfully");
+			}
 		} catch (err) {
 			console.log(err);
 		}
@@ -20,10 +37,68 @@ const MainApp = () => {
 		getUserProjects();
 	}, []);
 	return (
-		<div className="w-full flex h-screen">
+		<div className="w-full flex h-full bg-gray-950">
 			<SideBar />
-			<div className="w-10/12 bg-gray-950 p-3.5">
-				<p>Welcome to the Main App</p>
+			<div className="w-10/12 p-3.5 ml-auto bg-gray-950 h-screen">
+				<div className="flex flex-col w-full gap-4 mt-7">
+					<h1 className="text-2xl font-bold text-gray-500">View Projects</h1>
+				</div>
+				<div className="w-full h-0.5 bg-gray-700 my-7" />
+				<div className="flex flex-wrap overflow-scroll gap-4">
+					{projects.length > 0 ? (
+						projects.map((item) => {
+							console.log(item);
+							return (
+								<div key={item.id} className="w-4/12 relative">
+									<div className="bg-gray-800 border-4 border-gray-800 rounded-2xl w-full min-h-48 p-5 flex flex-col justify-between hover:bg-gray-950 hover:border-gray-400 transition-all duration-200 ease-in-out">
+										<h3 className="text-3xl text-gray-400 font-bold">
+											{item.name}
+										</h3>
+										<div className="flex justify-between">
+											<p className="text-gray-400 text-base font-medium w-3/4">
+												{item.description}
+											</p>
+											<button
+												className="rounded-xl p-2 flex justify-center items-center hover:bg-gray-700 transition ease-in-out cursor-pointer"
+												onClick={() => setSelectedTaskEllipse(item.id)}
+											>
+												<FaEllipsis color="white" size={20} />
+											</button>
+										</div>
+									</div>
+									{selectedTaskEllipse === item.id && (
+										<motion.div
+											onBlur={() => setSelectedTaskEllipse(null)}
+											onViewportLeave={() => setSelectedTaskEllipse(null)}
+											className="absolute bottom-5 right-3 bg-gray-900 p-1.5 rounded-xl"
+											initial={{
+												scale: 0,
+											}}
+											animate={{
+												scale: 1,
+											}}
+											exit={{ scale: 0 }}
+										>
+											<p
+												className="text-red-400 text-base font-medium hover:bg-gray-600 transition ease-in-out rounded-lg p-0.5 cursor-pointer"
+												onClick={() => handleDeleteProject(item.id)}
+											>
+												delete
+											</p>
+											<p className="text-gray-400 text-base font-medium hover:bg-gray-600 transition ease-in-out rounded-lg p-0.5 cursor-pointer">
+												edit
+											</p>
+										</motion.div>
+									)}
+								</div>
+							);
+						})
+					) : (
+						<div>
+							<p>No Projects</p>
+						</div>
+					)}
+				</div>
 			</div>
 		</div>
 	);

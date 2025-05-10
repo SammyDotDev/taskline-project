@@ -26,12 +26,13 @@ public class ToObject {
         return project;
     }
 
-    public Task toTask(TaskDto taskDto, Project project){
+    public Task toTask(TaskDto taskDto, Project project, User user){
         Task task = new Task();
         task.setId(taskDto.id());
         task.setTitle(taskDto.title());
         task.setDueDate(taskDto.dueDate());
         task.setProject(project);
+        task.setUser(user);
         return task;
     }
 }

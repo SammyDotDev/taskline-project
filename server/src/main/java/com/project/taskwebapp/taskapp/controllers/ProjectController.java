@@ -6,6 +6,7 @@ import com.project.taskwebapp.taskapp.services.AuthService;
 import com.project.taskwebapp.taskapp.services.ProjectService;
 import com.project.taskwebapp.taskapp.utils.interfaces.functions.ToDto;
 import com.project.taskwebapp.taskapp.utils.interfaces.functions.ToObject;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,16 +29,23 @@ public class ProjectController {
 
     @PostMapping("/add-project")
     @ResponseStatus(HttpStatus.CREATED)
-    public ProjectDto createNewProject(@RequestBody ProjectDto project){
+    public ProjectDto createNewProject(@Valid @RequestBody ProjectDto project){
 
         var userByUserId = authService.getUserById(project.userId());
         var projectMain = projectService.createProject(toObject.toProject(project, userByUserId));
         System.out.println(userByUserId.getEmail());
-        return new ProjectDto(projectMain.getId(),projectMain.getName(), projectMain.getDescription(), userByUserId.getId());
+        return toDto.toProjectDto(projectMain, userByUserId);
     }
 
     @GetMapping("/get-projects/{user-id}")
-    public List<ProjectDtoResponse> getProjectsByUserId(@PathVariable("user-id") Integer userId){
+    public List<ProjectDto> getProjectsByUserId(@PathVariable("user-id") Integer userId){
         return projectService.getUserProjects(userId);
+    }
+
+
+
+    @DeleteMapping("/delete-project/{project-id}")
+    public void deleteProject(@PathVariable("project-id") Integer id){
+        projectService.deleteProjectById(id);
     }
 }

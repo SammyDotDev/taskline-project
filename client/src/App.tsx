@@ -18,6 +18,8 @@ function App() {
 				<Routes>
 					<Route path="/" Component={MainApp} />
 					<Route path="/create-project" Component={CreateProject} />
+					<Route path="/create-project/edit-project" Component={AddTask} />
+					<Route path="/create-project/view-project" Component={AddTask} />
 					<Route path="/create-project/add-task" Component={AddTask} />
 				</Routes>
 			</Router>

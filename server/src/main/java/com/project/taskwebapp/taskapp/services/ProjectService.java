@@ -1,5 +1,6 @@
 package com.project.taskwebapp.taskapp.services;
 
+import com.project.taskwebapp.taskapp.dto.projects.ProjectDto;
 import com.project.taskwebapp.taskapp.dto.projects.ProjectDtoResponse;
 import com.project.taskwebapp.taskapp.exceptions.NotFoundException;
 import com.project.taskwebapp.taskapp.models.Project;
@@ -20,11 +21,15 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public List<ProjectDtoResponse> getUserProjects(Integer id){
+    public List<ProjectDto> getUserProjects(Integer id){
         return projectRepository.findAllByUserId(id);
     }
 
     public Project getProjectById(Integer id){
         return projectRepository.findById(id).orElseThrow(()-> new NotFoundException("Project not found"));
+    }
+
+    public void deleteProjectById(Integer id) {
+        projectRepository.deleteById(id);
     }
 }

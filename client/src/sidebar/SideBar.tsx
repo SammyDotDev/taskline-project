@@ -8,7 +8,7 @@ const SideBar = () => {
 	const isActive = useLocation();
 	const activePath = isActive.pathname;
 	return (
-		<div className="bg-gray-900 w-2/12 flex flex-col p-1.5 max-w-72">
+		<div className="bg-gray-900 w-2/12 flex flex-col p-1.5 max-w-96 fixed h-full">
 			<div
 				className={
 					"py-4 px-3.5 rounded-xl my-3 bg-gray-700 w-4/5 mx-auto flex gap-4 items-center transition-colors duration-200 ease-in-out shadow-2xs"

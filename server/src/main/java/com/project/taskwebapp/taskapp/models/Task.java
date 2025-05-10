@@ -18,7 +18,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(
-            name = "user-id"
+            name = "user_id"
     )
     @JsonBackReference("user-tasks")
     private User user;
@@ -33,12 +33,13 @@ public class Task {
     public Task() {
     }
 
-    public Task(Integer id, String title, String dueDate, String status, Project project) {
+    public Task(Integer id, String title, String dueDate, String status, Project project, User user) {
         this.id = id;
         this.title = title;
         this.dueDate = dueDate;
         this.status = status;
         this.project = project;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -79,5 +80,13 @@ public class Task {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
