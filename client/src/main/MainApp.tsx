@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+	ButtonHTMLAttributes,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import SideBar from "../sidebar/SideBar";
 import api, { API_URL } from "../api/api";
 import { FaEllipsis } from "react-icons/fa6";
@@ -6,7 +11,9 @@ import { motion } from "framer-motion";
 
 const MainApp = () => {
 	const [projects, setProjects] = useState([]);
+	const ellipseButton = useRef<ButtonHTMLAttributes<React.ReactNode>>(null);
 	const [selectedTaskEllipse, setSelectedTaskEllipse] = useState(null);
+	const [ellipseIsSelected, setEllipseIsSelected] = useState(false);
 	const getUserProjects = async () => {
 		const userId = localStorage.getItem("user");
 		const currentUserId = userId !== null && JSON.parse(userId).id;
@@ -23,7 +30,9 @@ const MainApp = () => {
 
 	const handleDeleteProject = async (projectId: number) => {
 		try {
-			const res = await api.delete(`${API_URL}/project/delete-project/${projectId}`);
+			const res = await api.delete(
+				`${API_URL}/project/delete-project/${projectId}`
+			);
 			if (res.status === 200) {
 				getUserProjects();
 				console.log("Project deleted successfully");
@@ -37,7 +46,15 @@ const MainApp = () => {
 		getUserProjects();
 	}, []);
 	return (
-		<div className="w-full flex h-full bg-gray-950">
+		<div
+			className="w-full flex h-full bg-gray-950"
+			onClick={() => {
+				if (ellipseButton.current && ellipseButton.current?.accessKey === "0") {
+					setSelectedTaskEllipse(null);
+				}
+				console.log(ellipseButton.current);
+			}}
+		>
 			<SideBar />
 			<div className="w-10/12 p-3.5 ml-auto bg-gray-950 h-screen">
 				<div className="flex flex-col w-full gap-4 mt-7">
@@ -59,8 +76,17 @@ const MainApp = () => {
 												{item.description}
 											</p>
 											<button
+												ref={ellipseButton}
+												accessKey={ellipseButton.current?.onClick ? "1" : "0"}
 												className="rounded-xl p-2 flex justify-center items-center hover:bg-gray-700 transition ease-in-out cursor-pointer"
-												onClick={() => setSelectedTaskEllipse(item.id)}
+												onClick={() => {
+													if (
+														ellipseButton.current &&
+														ellipseButton.current.accessKey === "1"
+													) {
+														setSelectedTaskEllipse(item.id);
+													}
+												}}
 											>
 												<FaEllipsis color="white" size={20} />
 											</button>
@@ -69,7 +95,6 @@ const MainApp = () => {
 									{selectedTaskEllipse === item.id && (
 										<motion.div
 											onBlur={() => setSelectedTaskEllipse(null)}
-											onViewportLeave={() => setSelectedTaskEllipse(null)}
 											className="absolute bottom-5 right-3 bg-gray-900 p-1.5 rounded-xl"
 											initial={{
 												scale: 0,
