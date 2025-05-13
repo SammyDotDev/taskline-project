@@ -52,7 +52,7 @@ const MainApp = () => {
 		// setEl(false);
 		// if (ellipseButton.current && ellipseButton.current.accessKey === "0") {
 		// setSelectedTaskEllipse(item.id);
-		navigate(`/view-project/${id}`, {
+		navigate(`/dashboard/view-project/${id}`, {
 			state: {
 				userId: currentUserId,
 				projectId: id,

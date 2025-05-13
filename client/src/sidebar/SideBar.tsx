@@ -14,12 +14,17 @@ const SideBar = () => {
 					"py-4 px-3.5 rounded-xl my-3 bg-gray-700 w-4/5 mx-auto flex gap-4 items-center transition-colors duration-200 ease-in-out shadow-2xs"
 				}
 			>
-				<p className="text-2xl ">TaskLine</p>
+				<p
+					className="text-2xl font-black text-shadow-white"
+					style={{ color: "white" }}
+				>
+					TaskLine
+				</p>
 			</div>
 			<SideNavLink
 				to="/"
 				icon={<IoStatsChartOutline size={20} />}
-				isActive={activePath === "/"}
+				isActive={activePath.includes("/dashboard")}
 			>
 				Dashboard
 			</SideNavLink>

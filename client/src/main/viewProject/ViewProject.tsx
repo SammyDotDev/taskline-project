@@ -10,8 +10,17 @@ const ViewProject = () => {
 		state: { projectId, userId },
 	} = useLocation();
 	const [projectData, setProjectData] = useState({
-		project: {},
-		task: {},
+		project: {
+			id: null,
+			name: "",
+			description: "",
+		},
+		task: [
+			{
+				title: "",
+				dueDate: "",
+			},
+		],
 	});
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
@@ -39,7 +48,11 @@ const ViewProject = () => {
 			}
 		};
 		fetchData();
-	}, []);
+	}, [projectId, userId]);
+
+	useEffect(() => {
+		console.log(projectData);
+	}, [projectData]);
 	return (
 		<div className="w-full flex relative">
 			{loading && (
@@ -72,23 +85,39 @@ const ViewProject = () => {
 							<p className="text-white">{success}</p>
 						</motion.div>
 					)} */}
-					<h1 className="text-2xl font-bold text-gray-500">Projects: {}</h1>
-					<p className="text-base font-light text-gray-700">
+					<h1 className="text-2xl font-bold text-gray-500 flex gap-1.5">
+						Project Title:{" "}
+						<p className="text-white">{projectData.project?.name}</p>
+					</h1>
+					<p className="text-base font-light text-gray-500">
 						Create a new task for this project.
 					</p>
 				</div>
 				<div className="w-full h-0.5 bg-gray-700 my-3.5" />
-				<CustomButton
-					backBtn
-					onClick={() => navigate("/")}
-					title={<BiArrowBack />}
-				/>
-				<div className="flex flex-col gap-4 w-2/4 mx-auto">
-					{/* <CustomButton
-						title="Add New Task"
-						onClick={handleAddTask}
-						disabled={disabled}
-					/> */}
+				<div className="flex justify-between items-center py-2">
+					<CustomButton
+						backBtn
+						onClick={() => navigate("/")}
+						title={<BiArrowBack />}
+					/>
+					<CustomButton
+						onClick={() => navigate("/dashboard/view-project/add-task")}
+						title={"Add New Task"}
+					/>
+				</div>
+				<div className="flex flex-col gap-4 w-full">
+					<h1 className="text-2xl font-bold text-gray-500 flex gap-1.5">
+						Tasks
+					</h1>
+					{projectData.task?.map((item) => {
+						return (
+							<div className="w-full rounded-2xl bg-gray-700 p-2.5 py-5 flex gap-2 my-2">
+								<p className="text-white">{item.id}</p>
+								<p className="text-white">{item.title}</p>
+								<p className="text-white">{item.dueDate}</p>
+							</div>
+						);
+					})}
 				</div>
 			</div>
 		</div>
