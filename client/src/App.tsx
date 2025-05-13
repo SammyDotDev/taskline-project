@@ -6,6 +6,7 @@ import SignUp from "./auth/SignUp";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import AddTask from "./main/createProject/AddTask";
+import ViewProject from "./main/viewProject/ViewProject";
 
 function App() {
 	return (
@@ -19,7 +20,7 @@ function App() {
 					<Route path="/" Component={MainApp} />
 					<Route path="/create-project" Component={CreateProject} />
 					<Route path="/create-project/edit-project" Component={AddTask} />
-					<Route path="/create-project/view-project" Component={AddTask} />
+					<Route path="/view-project/:id" Component={ViewProject} />
 					<Route path="/create-project/add-task" Component={AddTask} />
 				</Routes>
 			</Router>

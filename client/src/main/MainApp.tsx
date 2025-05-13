@@ -8,12 +8,15 @@ import SideBar from "../sidebar/SideBar";
 import api, { API_URL } from "../api/api";
 import { FaEllipsis } from "react-icons/fa6";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const MainApp = () => {
+	const navigate = useNavigate();
 	const [projects, setProjects] = useState([]);
 	const ellipseButton = useRef<ButtonHTMLAttributes<React.ReactNode>>(null);
 	const [selectedTaskEllipse, setSelectedTaskEllipse] = useState(null);
 	const [ellipseIsSelected, setEllipseIsSelected] = useState(false);
+	const [el, setEl] = useState(true);
 	const getUserProjects = async () => {
 		const userId = localStorage.getItem("user");
 		const currentUserId = userId !== null && JSON.parse(userId).id;
@@ -42,6 +45,19 @@ const MainApp = () => {
 		}
 	};
 
+	const handleViewProject = (id: number) => {
+		console.log(id);
+		// setEl(false);
+		// if (ellipseButton.current && ellipseButton.current.accessKey === "0") {
+			// setSelectedTaskEllipse(item.id);
+			navigate(`/view-project/${id}`, {
+				state: {
+					id,
+				},
+			});
+		// }
+	};
+
 	useEffect(() => {
 		getUserProjects();
 	}, []);
@@ -49,10 +65,12 @@ const MainApp = () => {
 		<div
 			className="w-full flex h-full bg-gray-950"
 			onClick={() => {
-				if (ellipseButton.current && ellipseButton.current?.accessKey === "0") {
+				// setEl(false);
+				// if (ellipseButton.current?.accessKey === "0") {
 					setSelectedTaskEllipse(null);
-				}
-				console.log(ellipseButton.current);
+					// setEl(true);
+				// }
+				console.log(ellipseButton.current?.accessKey);
 			}}
 		>
 			<SideBar />
@@ -64,9 +82,13 @@ const MainApp = () => {
 				<div className="flex flex-wrap overflow-scroll gap-4">
 					{projects.length > 0 ? (
 						projects.map((item) => {
-							console.log(item);
+							// console.log(item);
 							return (
-								<div key={item.id} className="w-4/12 relative">
+								<div
+									key={item.id}
+									className="w-4/12 relative"
+									onClick={() => handleViewProject(item.id)}
+								>
 									<div className="bg-gray-800 border-4 border-gray-800 rounded-2xl w-full min-h-48 p-5 flex flex-col justify-between hover:bg-gray-950 hover:border-gray-400 transition-all duration-200 ease-in-out">
 										<h3 className="text-3xl text-gray-400 font-bold">
 											{item.name}
@@ -77,15 +99,17 @@ const MainApp = () => {
 											</p>
 											<button
 												ref={ellipseButton}
-												accessKey={ellipseButton.current?.onClick ? "1" : "0"}
+												accessKey={el ? "1" : "0"}
 												className="rounded-xl p-2 flex justify-center items-center hover:bg-gray-700 transition ease-in-out cursor-pointer"
-												onClick={() => {
-													if (
-														ellipseButton.current &&
-														ellipseButton.current.accessKey === "1"
-													) {
+												onClick={(e) => {
+													e.stopPropagation();
+													// setEl(true);
+													// if (
+														// ellipseButton.current &&
+														// // ellipseButton.current.accessKey === "1"
+													// ) {
 														setSelectedTaskEllipse(item.id);
-													}
+													// }
 												}}
 											>
 												<FaEllipsis color="white" size={20} />
@@ -95,6 +119,10 @@ const MainApp = () => {
 									{selectedTaskEllipse === item.id && (
 										<motion.div
 											onBlur={() => setSelectedTaskEllipse(null)}
+											// onClick={() => {
+											// 	if (el) {
+											// 	}
+											// }}
 											className="absolute bottom-5 right-3 bg-gray-900 p-1.5 rounded-xl"
 											initial={{
 												scale: 0,
