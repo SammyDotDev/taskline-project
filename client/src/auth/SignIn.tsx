@@ -97,7 +97,7 @@ const SignIn = () => {
 					}
 					value={userDetails.password}
 				/>
-				<p>
+				<p className="text-white">
 					Don't have an account?
 					<Link to="/signup" className="text-blue-500 ml-1.5">
 						Sign Up

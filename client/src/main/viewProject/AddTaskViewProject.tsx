@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import TextField from "../../components/TextField";
 import CustomButton from "../../components/CustomButton";
 import SideBar from "../../sidebar/SideBar";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import api, { API_URL } from "../../api/api";
 import { motion } from "framer-motion";
 
 const AddTaskToViewProject = () => {
+	const {
+		state: { projectId, userId },
+	} = useLocation();
 	const navigate = useNavigate();
 	const [disabled, setDisabled] = useState(false);
 	const [error, setError] = useState<string>("");
@@ -20,23 +23,24 @@ const AddTaskToViewProject = () => {
 		status: null,
 	});
 
-	const [projectId, setProjectId] = useState(0);
-	const [userId, setUserId] = useState(0);
+	// const [projectId, setProjectId] = useState(0);
+	// const [userId, setUserId] = useState(0);
 
 	useEffect(() => {
-		const pId = localStorage.getItem("projectId");
-		const userId = localStorage.getItem("user");
-		const proId = pId ? +pId : 0;
-		const currentUserId = userId !== null && JSON.parse(userId).id;
-		setProjectId(proId);
-        console.log(proId, "PROJECT ID IN UE")
-		setUserId(currentUserId);
+		// const pId = localStorage.getItem("projectId");
+		// const userId = localStorage.getItem("user");
+		// const proId = pId ? +pId : 0;
+		// const currentUserId = userId !== null && JSON.parse(userId).id;
+		// setProjectId(proId);
+		// console.log(proId, "PROJECT ID IN UE");
+		// setUserId(currentUserId);
 		setTask((prev) => ({
 			...prev,
 			projectId: projectId,
-			userId: currentUserId,
+			userId: userId,
 		}));
-	}, [projectId]);
+		console.log(projectId, userId);
+	}, [projectId, userId]);
 
 	const handleAddTaskToViewProject = async () => {
 		console.log(task.projectId);

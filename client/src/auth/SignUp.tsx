@@ -119,7 +119,7 @@ const SignUp = () => {
 					onChange={(e) => setConfirmPassword(e.target.value)}
 					value={confirmPassword}
 				/>
-				<p>
+				<p className="text-white">
 					Already have an account?
 					<Link to="/signin" className="text-blue-500 ml-1.5">
 						Sign in

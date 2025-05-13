@@ -35,7 +35,6 @@ public class TaskController {
     @PostMapping("/add-task")
     public ApiResponseDto addTask(@Valid @RequestBody TaskDto taskDto){
         var project = projectService.getProjectById(taskDto.projectId());
-        System.out.println(project);
         var user = authService.getUserById(taskDto.userId());
         var task = toObject.toTask(taskDto, project, user);
         

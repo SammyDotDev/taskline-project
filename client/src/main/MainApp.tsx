@@ -150,8 +150,8 @@ const MainApp = () => {
 							);
 						})
 					) : (
-						<div>
-							<p>No Projects</p>
+						<div className="my-7 mx-auto">
+							<p className="text-white font-bold text-center">No task added</p>
 						</div>
 					)}
 				</div>

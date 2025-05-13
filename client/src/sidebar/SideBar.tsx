@@ -1,12 +1,22 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SideNavLink from "../components/SideNavLink";
 import { IoStatsChartOutline } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
 import { BiLogOut } from "react-icons/bi";
+import CustomButton from "../components/CustomButton";
 
 const SideBar = () => {
+	const navigate = useNavigate();
 	const isActive = useLocation();
 	const activePath = isActive.pathname;
+
+	const handleLogout = () => {
+		localStorage.removeItem("user");
+		localStorage.removeItem("projectId");
+		navigate("/signin", {
+			replace: true,
+		});
+	};
 	return (
 		<div className="bg-gray-900 w-2/12 flex flex-col p-1.5 max-w-96 fixed h-full">
 			<div
@@ -35,13 +45,20 @@ const SideBar = () => {
 			>
 				New Project
 			</SideNavLink>
-			<SideNavLink
-				to="/signin"
-				icon={<BiLogOut size={20} />}
+			<CustomButton
+				className={"bg-transparent"}
+				backBtn
+				logout
+				wFit={false}
+				onClick={handleLogout}
+				title={
+					<div className="flex items-center gap-3">
+						<BiLogOut size={20} color={"red"} />
+						<p className="text-red-600 font-semibold">Sign Out</p>
+					</div>
+				}
 				// isActive={activePath === "/create-project"}
-			>
-				Log Out
-			</SideNavLink>
+			/>
 		</div>
 	);
 };

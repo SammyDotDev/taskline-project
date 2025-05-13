@@ -4,6 +4,7 @@ import CustomButton from "../../components/CustomButton";
 import { BiArrowBack } from "react-icons/bi";
 import SideBar from "../../sidebar/SideBar";
 import api, { API_URL } from "../../api/api";
+import { formatDate } from "../../helpers/formatDate";
 
 const ViewProject = () => {
 	const {
@@ -101,7 +102,11 @@ const ViewProject = () => {
 						title={<BiArrowBack />}
 					/>
 					<CustomButton
-						onClick={() => navigate("/dashboard/view-project/add-task")}
+						onClick={() =>
+							navigate("/dashboard/view-project/add-task", {
+								state: { projectId, userId },
+							})
+						}
 						title={"Add New Task"}
 					/>
 				</div>
@@ -112,15 +117,18 @@ const ViewProject = () => {
 					<div className="w-full rounded-3xl p-2 gap-4 bg-gray-900">
 						{projectData.task.length === 0 ? (
 							<div className="my-7">
-                                <p className="text-white font-bold text-center">No task added</p>
-                            </div>
+								<p className="text-white font-bold text-center">
+									No task added
+								</p>
+							</div>
 						) : (
 							projectData.task?.map((item) => {
+								const dueDate = new Date(item.dueDate);
+
 								return (
 									<div className="w-full rounded-2xl bg-gray-700 p-2.5 py-5 flex gap-2 my-1">
-										<p className="text-white">{item.id}</p>
 										<p className="text-white">{item.title}</p>
-										<p className="text-white">{item.dueDate}</p>
+										<p className="text-white">{formatDate(item.dueDate)}</p>
 									</div>
 								);
 							})
