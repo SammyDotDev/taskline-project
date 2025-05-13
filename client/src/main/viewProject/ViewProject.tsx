@@ -109,15 +109,23 @@ const ViewProject = () => {
 					<h1 className="text-2xl font-bold text-gray-500 flex gap-1.5">
 						Tasks
 					</h1>
-					{projectData.task?.map((item) => {
-						return (
-							<div className="w-full rounded-2xl bg-gray-700 p-2.5 py-5 flex gap-2 my-2">
-								<p className="text-white">{item.id}</p>
-								<p className="text-white">{item.title}</p>
-								<p className="text-white">{item.dueDate}</p>
-							</div>
-						);
-					})}
+					<div className="w-full rounded-3xl p-2 gap-4 bg-gray-900">
+						{projectData.task.length === 0 ? (
+							<div className="my-7">
+                                <p className="text-white font-bold text-center">No task added</p>
+                            </div>
+						) : (
+							projectData.task?.map((item) => {
+								return (
+									<div className="w-full rounded-2xl bg-gray-700 p-2.5 py-5 flex gap-2 my-1">
+										<p className="text-white">{item.id}</p>
+										<p className="text-white">{item.title}</p>
+										<p className="text-white">{item.dueDate}</p>
+									</div>
+								);
+							})
+						)}
+					</div>
 				</div>
 			</div>
 		</div>
