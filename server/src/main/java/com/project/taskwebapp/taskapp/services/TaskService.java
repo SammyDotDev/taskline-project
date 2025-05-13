@@ -28,7 +28,10 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
+
+
     public List<TaskDto> getAllTasks(Integer id){
+
         return taskRepository.findAllByProjectId(id).stream().map(toDto::toTaskRepoDto).collect(Collectors.toList());
     }
 

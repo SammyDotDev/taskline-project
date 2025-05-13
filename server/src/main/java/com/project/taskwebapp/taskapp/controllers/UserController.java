@@ -32,7 +32,6 @@ public class UserController {
         return toDto.toUserDto(authService.addNewUser(user));
     }
 
-
     @GetMapping("/users/all")
     public List<User> getAllUsers(){
         return userService.getAllUsers();

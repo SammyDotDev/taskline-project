@@ -50,6 +50,7 @@ public class TaskController {
     @DeleteMapping("/delete-task/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Map<String, String>> deleteTask(@PathVariable("task-id") Integer id){
+
         taskService.deleteTask(id);
         var response = Map.of(
                 "message","task deleted successfully"

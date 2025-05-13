@@ -28,14 +28,21 @@ public class User {
     @JsonManagedReference("user-projects")
     private final List<Project> projects = new ArrayList<>();
 
+
+    @OneToMany(
+            mappedBy = "user"
+    )
+    @JsonManagedReference("user-tasks")
+    private final List<Task> tasks = new ArrayList<>();
     public User() {
     }
 
-    public User(Integer id, String username, String email, String password, List<Project> projects) {
+    public User(Integer id, String username, String email, String password, List<Project> projects, List<Task> tasks) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+
     }
 
     public Integer getId() {

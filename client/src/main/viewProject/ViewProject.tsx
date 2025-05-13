@@ -1,15 +1,54 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CustomButton from "../../components/CustomButton";
 import { BiArrowBack } from "react-icons/bi";
 import SideBar from "../../sidebar/SideBar";
+import api, { API_URL } from "../../api/api";
 
 const ViewProject = () => {
-	const { id } = useParams();
+	const {
+		state: { projectId, userId },
+	} = useLocation();
+	const [projectData, setProjectData] = useState({
+		project: {},
+		task: {},
+	});
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
-	console.log(id);
+
+	useEffect(() => {
+		console.log(userId, projectId, "ID'S");
+		const fetchData = async () => {
+			setLoading(true);
+			try {
+				const projectResponse = await api.get(
+					`${API_URL}/project/get-project/${userId}/${projectId}`
+				);
+				const taskResponse = await api.get(
+					`${API_URL}/task/get-tasks/${projectId}`
+				);
+				setProjectData((prev) => ({
+					...prev,
+					project: projectResponse.data,
+					task: taskResponse.data,
+				}));
+			} catch (err) {
+				console.log(err);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchData();
+	}, []);
 	return (
-		<div className="w-full flex">
+		<div className="w-full flex relative">
+			{loading && (
+				<div className="absolute w-full h-full bg-[#17171b7f] z-[999999] flex justify-center items-center">
+					<div className="w-fit">
+						<p className="text-2xl text-white font-bold">Loading....</p>
+					</div>
+				</div>
+			)}
 			<SideBar />
 			<div className="w-10/12 h-screen -10/12 bg-gray-950 p-3.5 ml-auto">
 				<div className="flex flex-col w-full gap-4">
@@ -41,7 +80,7 @@ const ViewProject = () => {
 				<div className="w-full h-0.5 bg-gray-700 my-3.5" />
 				<CustomButton
 					backBtn
-					onClick={() => navigate("/create-project")}
+					onClick={() => navigate("/")}
 					title={<BiArrowBack />}
 				/>
 				<div className="flex flex-col gap-4 w-2/4 mx-auto">

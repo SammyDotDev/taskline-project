@@ -46,15 +46,18 @@ const MainApp = () => {
 	};
 
 	const handleViewProject = (id: number) => {
+		const userId = localStorage.getItem("user");
+		const currentUserId = userId !== null && JSON.parse(userId).id;
 		console.log(id);
 		// setEl(false);
 		// if (ellipseButton.current && ellipseButton.current.accessKey === "0") {
-			// setSelectedTaskEllipse(item.id);
-			navigate(`/view-project/${id}`, {
-				state: {
-					id,
-				},
-			});
+		// setSelectedTaskEllipse(item.id);
+		navigate(`/view-project/${id}`, {
+			state: {
+				userId: currentUserId,
+				projectId: id,
+			},
+		});
 		// }
 	};
 
@@ -67,8 +70,8 @@ const MainApp = () => {
 			onClick={() => {
 				// setEl(false);
 				// if (ellipseButton.current?.accessKey === "0") {
-					setSelectedTaskEllipse(null);
-					// setEl(true);
+				setSelectedTaskEllipse(null);
+				// setEl(true);
 				// }
 				console.log(ellipseButton.current?.accessKey);
 			}}
@@ -105,10 +108,10 @@ const MainApp = () => {
 													e.stopPropagation();
 													// setEl(true);
 													// if (
-														// ellipseButton.current &&
-														// // ellipseButton.current.accessKey === "1"
+													// ellipseButton.current &&
+													// // ellipseButton.current.accessKey === "1"
 													// ) {
-														setSelectedTaskEllipse(item.id);
+													setSelectedTaskEllipse(item.id);
 													// }
 												}}
 											>

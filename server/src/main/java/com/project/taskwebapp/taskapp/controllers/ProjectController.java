@@ -37,6 +37,13 @@ public class ProjectController {
         return toDto.toProjectDto(projectMain, userByUserId);
     }
 
+    @GetMapping("/get-project/{user-id}/{project-id}")
+    public ProjectDto getProjectById(@PathVariable("user-id") Integer userId, @PathVariable("project-id") Integer projectId){
+        var user = authService.getUserById(userId);
+        var project = projectService.getProjectById(projectId);
+        return toDto.toProjectDto(project, user);
+    }
+
     @GetMapping("/get-projects/{user-id}")
     public List<ProjectDto> getProjectsByUserId(@PathVariable("user-id") Integer userId){
         return projectService.getUserProjects(userId);
