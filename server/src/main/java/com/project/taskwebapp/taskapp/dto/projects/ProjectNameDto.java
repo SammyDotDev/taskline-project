@@ -1,4 +1,4 @@
 package com.project.taskwebapp.taskapp.dto.projects;
 
-public record ProjectNameDto() {
+public record ProjectNameDto(String name) {
 }

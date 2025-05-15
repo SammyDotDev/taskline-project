@@ -2,6 +2,7 @@ package com.project.taskwebapp.taskapp.controllers;
 
 import com.project.taskwebapp.taskapp.dto.projects.ProjectDto;
 import com.project.taskwebapp.taskapp.dto.projects.ProjectDtoResponse;
+import com.project.taskwebapp.taskapp.dto.projects.ProjectNameDto;
 import com.project.taskwebapp.taskapp.services.AuthService;
 import com.project.taskwebapp.taskapp.services.ProjectService;
 import com.project.taskwebapp.taskapp.utils.interfaces.functions.ToDto;
@@ -54,5 +55,10 @@ public class ProjectController {
     @DeleteMapping("/delete-project/{project-id}")
     public void deleteProject(@PathVariable("project-id") Integer id){
         projectService.deleteProjectById(id);
+    }
+
+    @PatchMapping("/update-project-name/{user-id}/{project-id}")
+    public ProjectDto updateProjectName(@PathVariable("user-id") Integer userId, @PathVariable("project-id") Integer projectId, @RequestBody ProjectNameDto newProjectName){
+        return projectService.updateProjectName(userId, projectId, newProjectName.name());
     }
 }
