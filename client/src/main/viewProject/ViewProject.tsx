@@ -5,11 +5,14 @@ import { BiArrowBack } from "react-icons/bi";
 import SideBar from "../../sidebar/SideBar";
 import api, { API_URL } from "../../api/api";
 import { formatDate } from "../../helpers/formatDate";
+import TextField from "../../components/TextField";
 
 const ViewProject = () => {
 	const {
 		state: { projectId, userId },
 	} = useLocation();
+	const [isEditProject, setIsEditProject] = useState<boolean>(false);
+	const [newProjectName, setNewProjectName] = useState<string>("");
 	const [projectData, setProjectData] = useState({
 		project: {
 			id: null,
@@ -54,6 +57,37 @@ const ViewProject = () => {
 	useEffect(() => {
 		console.log(projectData);
 	}, [projectData]);
+
+	const handleEditProjectName = async () => {
+		setLoading(true);
+		setIsEditProject((prev) => !prev);
+		if (isEditProject) {
+			try {
+				const res = await api.patch(
+					`${API_URL}/project/update-project-name/${userId}/${projectId}`,
+
+					{ name: newProjectName },
+
+					{
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+				);
+				console.log(res.data);
+				setProjectData((prev) => ({
+					...prev,
+					project: res.data,
+				}));
+			} catch (err) {
+				console.log(err);
+			} finally {
+				setTimeout(() => {
+					setLoading(false);
+				}, 3000);
+			}
+		}
+	};
 	return (
 		<div className="w-full flex relative">
 			{loading && (
@@ -65,7 +99,7 @@ const ViewProject = () => {
 			)}
 			<SideBar />
 			<div className="w-10/12 h-screen -10/12 bg-gray-950 p-3.5 ml-auto">
-				<div className="flex flex-col w-full gap-4">
+				<div className="flex justify-between w-full">
 					{/* {error.length !== 0 && (
 						<motion.div
 							className="p-2.5 rounded-xl flex justify-center items-center bg-red-500 mx-auto absolute"
@@ -86,13 +120,31 @@ const ViewProject = () => {
 							<p className="text-white">{success}</p>
 						</motion.div>
 					)} */}
-					<h1 className="text-2xl font-bold text-gray-500 flex gap-1.5">
-						Project Title:{" "}
-						<p className="text-white">{projectData.project?.name}</p>
-					</h1>
-					<p className="text-base font-light text-gray-500">
-						Create a new task for this project.
-					</p>
+					<div className="">
+						<div className="flex items-center gap-5 h-14">
+							<h1 className="text-2xl font-bold text-gray-500 flex gap-1.5">
+								Project Title:{" "}
+							</h1>
+							{isEditProject ? (
+								<TextField
+									noLabel
+									placeholder="Edit project name"
+									onChange={(e) => setNewProjectName(e.target.value)}
+									value={newProjectName}
+								/>
+							) : (
+								<p className="text-white">{projectData.project?.name}</p>
+							)}
+						</div>
+						<p className="text-base font-light text-gray-500">
+							Create a new task for this project.
+						</p>
+					</div>
+					<CustomButton
+						backBtn
+						title={isEditProject ? "Done" : "Edit project name"}
+						onClick={handleEditProjectName}
+					/>
 				</div>
 				<div className="w-full h-0.5 bg-gray-700 my-3.5" />
 				<div className="flex justify-between items-center py-2">

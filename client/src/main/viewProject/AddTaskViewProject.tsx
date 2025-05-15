@@ -27,13 +27,6 @@ const AddTaskToViewProject = () => {
 	// const [userId, setUserId] = useState(0);
 
 	useEffect(() => {
-		// const pId = localStorage.getItem("projectId");
-		// const userId = localStorage.getItem("user");
-		// const proId = pId ? +pId : 0;
-		// const currentUserId = userId !== null && JSON.parse(userId).id;
-		// setProjectId(proId);
-		// console.log(proId, "PROJECT ID IN UE");
-		// setUserId(currentUserId);
 		setTask((prev) => ({
 			...prev,
 			projectId: projectId,
