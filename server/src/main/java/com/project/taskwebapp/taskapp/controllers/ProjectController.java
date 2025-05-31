@@ -1,9 +1,8 @@
 package com.project.taskwebapp.taskapp.controllers;
 
 import com.project.taskwebapp.taskapp.dto.projects.ProjectDto;
-import com.project.taskwebapp.taskapp.dto.projects.ProjectDtoResponse;
 import com.project.taskwebapp.taskapp.dto.projects.ProjectNameDto;
-import com.project.taskwebapp.taskapp.services.AuthService;
+import com.project.taskwebapp.taskapp.services.UserService;
 import com.project.taskwebapp.taskapp.services.ProjectService;
 import com.project.taskwebapp.taskapp.utils.interfaces.functions.ToDto;
 import com.project.taskwebapp.taskapp.utils.interfaces.functions.ToObject;
@@ -17,13 +16,13 @@ import java.util.List;
 @RequestMapping("/api/v1/project")
 public class ProjectController {
     private final ProjectService projectService;
-    private final AuthService authService;
+    private final UserService userService;
     private final ToDto toDto;
     private final ToObject toObject;
 
-    public ProjectController(ProjectService projectService, AuthService authService, ToDto toDto, ToObject toObject) {
+    public ProjectController(ProjectService projectService, UserService userService, ToDto toDto, ToObject toObject) {
         this.projectService = projectService;
-        this.authService = authService;
+        this.userService = userService;
         this.toDto = toDto;
         this.toObject =toObject;
     }
@@ -32,7 +31,7 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.CREATED)
     public ProjectDto createNewProject(@Valid @RequestBody ProjectDto project){
 
-        var userByUserId = authService.getUserById(project.userId());
+        var userByUserId = userService.getUserById(project.userId());
         var projectMain = projectService.createProject(toObject.toProject(project, userByUserId));
         System.out.println(userByUserId.getEmail());
         return toDto.toProjectDto(projectMain, userByUserId);
@@ -40,7 +39,7 @@ public class ProjectController {
 
     @GetMapping("/get-project/{user-id}/{project-id}")
     public ProjectDto getProjectById(@PathVariable("user-id") Integer userId, @PathVariable("project-id") Integer projectId){
-        var user = authService.getUserById(userId);
+        var user = userService.getUserById(userId);
         var project = projectService.getProjectById(projectId);
         return toDto.toProjectDto(project, user);
     }

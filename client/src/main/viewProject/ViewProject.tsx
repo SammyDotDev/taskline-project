@@ -59,15 +59,14 @@ const ViewProject = () => {
 	}, [projectData]);
 
 	const handleEditProjectName = async () => {
-		setLoading(true);
-		setIsEditProject((prev) => !prev);
+        setIsEditProject((prev) => !prev);
 		if (isEditProject) {
+            setLoading(true);
 			try {
 				const res = await api.patch(
 					`${API_URL}/project/update-project-name/${userId}/${projectId}`,
 
 					{ name: newProjectName },
-
 					{
 						headers: {
 							"Content-Type": "application/json",
@@ -82,9 +81,7 @@ const ViewProject = () => {
 			} catch (err) {
 				console.log(err);
 			} finally {
-				setTimeout(() => {
-					setLoading(false);
-				}, 3000);
+				setLoading(false);
 			}
 		}
 	};

@@ -12,7 +12,8 @@ public class ToObject {
 
     public User toUser(AuthSigninDto authSigninDtoDto){
         User user = new User();
-        user.setEmail(authSigninDtoDto.email());
+        user.setUsername(authSigninDtoDto.username());
+//        user.setEmail(authSigninDtoDto.email());
         user.setPassword(authSigninDtoDto.password());
         return user;
     }

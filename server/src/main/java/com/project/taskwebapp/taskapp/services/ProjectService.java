@@ -1,7 +1,6 @@
 package com.project.taskwebapp.taskapp.services;
 
 import com.project.taskwebapp.taskapp.dto.projects.ProjectDto;
-import com.project.taskwebapp.taskapp.dto.projects.ProjectDtoResponse;
 import com.project.taskwebapp.taskapp.exceptions.NotFoundException;
 import com.project.taskwebapp.taskapp.models.Project;
 import com.project.taskwebapp.taskapp.repository.ProjectRepository;
@@ -15,13 +14,13 @@ import java.util.List;
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
-    private final AuthService authService;
+    private final UserService userService;
     private final ToDto toDto;
 
-    public ProjectService(ProjectRepository projectRepository, TaskRepository taskRepository, ToDto toDto, AuthService authService) {
+    public ProjectService(ProjectRepository projectRepository, TaskRepository taskRepository, ToDto toDto, UserService userService) {
         this.projectRepository = projectRepository;
         this.taskRepository = taskRepository;
-        this.authService = authService;
+        this.userService = userService;
         this.toDto = toDto;
     }
 
@@ -45,7 +44,7 @@ public class ProjectService {
     public ProjectDto updateProjectName(Integer userId, Integer projectId, String newProjectName){
         Project project = projectRepository.findById(projectId).orElseThrow(()->new NotFoundException("Project with ID: " + projectId + " not found"));
         project.setName(newProjectName);
-        var user = authService.getUserById(userId);
+        var user = userService.getUserById(userId);
         return toDto.toProjectDto(projectRepository.save(project), user);
     }
 }

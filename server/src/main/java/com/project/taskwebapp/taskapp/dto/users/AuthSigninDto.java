@@ -4,11 +4,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
 public record AuthSigninDto(
-        @NotEmpty(message = "Email cannot be empty")
-        @Email
-        String email,
+        @NotEmpty(message = "username cannot be empty")
+        String username,
 
-        @NotEmpty(message = "Password cannot be empty")
+        @NotEmpty(message = "password cannot be empty")
         String password
 ) {
 }

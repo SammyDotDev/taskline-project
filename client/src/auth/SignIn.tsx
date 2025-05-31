@@ -13,14 +13,14 @@ const SignIn = () => {
 	const [error, setError] = useState<string>("");
 	const [success, setSuccess] = useState<string>("");
 	const [userDetails, setUserDetails] = useState({
-		email: "",
+		username: "",
 		password: "",
 	});
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (userDetails.email.length > 0 && userDetails.password.length > 0) {
+		if (userDetails.username.length > 0 && userDetails.password.length > 0) {
 			setDisabled(false);
 		} else {
 			setDisabled(true);
@@ -28,10 +28,10 @@ const SignIn = () => {
 	}, [userDetails]);
 
 	const handleSignin = async () => {
-		if (!emailRegex.test(userDetails.email)) {
-			alert("Invalid email address");
-			return;
-		}
+		// if (!emailRegex.test(userDetails.username)) {
+		// 	alert("Invalid email address");
+		// 	return;
+		// }
 		try {
 			const res = await api.post("/auth/signin", userDetails);
 			console.log(res.data.message);
@@ -44,7 +44,9 @@ const SignIn = () => {
 			}
 		} catch (e) {
 			// console.log(e.response.data.error)
-			setError(e.response.data.message);
+			// setError(e.response.data.message);
+            setError("Failed to sign in.");
+            console.log(e);
 			setSuccess("");
 		} finally {
 			setLoading(false);
@@ -58,7 +60,7 @@ const SignIn = () => {
 		<div className="w-full h-screen justify-center flex flex-col pt-52 bg-gray-950">
 			{error.length !== 0 && (
 				<motion.div
-					className="p-2.5 rounded-xl flex justify-center items-center bg-red-500 mx-auto  absolute left-1/2"
+					className="p-2.5 rounded-xl flex justify-center items-center bg-red-500 mx-auto  absolute left-1/2 top-3.5"
 					initial={{ opacity: 0, scale: 0 }}
 					animate={{ opacity: 1, scale: 1 }}
 					exit={{ opacity: 0, scale: 0 }}
@@ -68,7 +70,7 @@ const SignIn = () => {
 			)}
 			{success.length !== 0 && (
 				<motion.div
-					className="p-2.5 rounded-xl flex justify-center items-center bg-green-500 mx-auto absolute left-1/2"
+					className="p-2.5 rounded-xl flex justify-center items-center bg-green-500 mx-auto absolute left-1/2 top-3.5"
 					initial={{ opacity: 0, scale: 0 }}
 					animate={{ opacity: 1, scale: 1 }}
 					exit={{ opacity: 0, scale: 0 }}
@@ -81,12 +83,12 @@ const SignIn = () => {
 					Welcome Back!
 				</h1>
 				<TextField
-					label="Email"
-					placeholder="Enter your email"
+					label="Username"
+					placeholder="Enter your username"
 					onChange={(e) =>
-						setUserDetails((prev) => ({ ...prev, email: e.target.value }))
+						setUserDetails((prev) => ({ ...prev, username: e.target.value }))
 					}
-					value={userDetails.email}
+					value={userDetails.username}
 				/>
 				<TextField
 					type="password"

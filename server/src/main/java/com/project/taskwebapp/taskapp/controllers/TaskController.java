@@ -2,7 +2,7 @@ package com.project.taskwebapp.taskapp.controllers;
 
 import com.project.taskwebapp.taskapp.dto.apiResponse.ApiResponseDto;
 import com.project.taskwebapp.taskapp.dto.tasks.TaskDto;
-import com.project.taskwebapp.taskapp.services.AuthService;
+import com.project.taskwebapp.taskapp.services.UserService;
 import com.project.taskwebapp.taskapp.services.ProjectService;
 import com.project.taskwebapp.taskapp.services.TaskService;
 import com.project.taskwebapp.taskapp.utils.interfaces.functions.ToDto;
@@ -20,22 +20,22 @@ import java.util.Map;
 public class TaskController {
     private final TaskService taskService;
     private final ProjectService projectService;
-    private final AuthService authService;
+    private final UserService userService;
     private final ToObject toObject;
     private final ToDto toDto;
 
-    public TaskController(TaskService taskService, ToObject toObject, ProjectService projectService,AuthService authService, ToDto toDto) {
+    public TaskController(TaskService taskService, ToObject toObject, ProjectService projectService, UserService userService, ToDto toDto) {
         this.taskService = taskService;
         this.toObject = toObject;
         this.projectService = projectService;
         this.toDto = toDto;
-        this.authService = authService;
+        this.userService = userService;
     }
 
     @PostMapping("/add-task")
     public ApiResponseDto addTask(@Valid @RequestBody TaskDto taskDto){
         var project = projectService.getProjectById(taskDto.projectId());
-        var user = authService.getUserById(taskDto.userId());
+        var user = userService.getUserById(taskDto.userId());
         var task = toObject.toTask(taskDto, project, user);
         
         return  new ApiResponseDto("task added successfully", true, toDto.toTaskDto(taskService.addNewTask(task), project, user));

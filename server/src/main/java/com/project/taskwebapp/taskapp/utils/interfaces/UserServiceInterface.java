@@ -1,6 +1,7 @@
 package com.project.taskwebapp.taskapp.utils.interfaces;
 
 import com.project.taskwebapp.taskapp.models.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 

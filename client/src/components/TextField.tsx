@@ -33,7 +33,7 @@ const TextField = ({
 				value={value}
 				onChange={onChange}
 				className={`${
-					noLabel ? "p-2.5 text-sm" : "p-0"
+					noLabel ? "p-2.5 text-sm" : "p-2.5"
 				} rounded-xl bg-gray-700 border
                 text-white border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out font-medium`}
 				placeholder={placeholder}
